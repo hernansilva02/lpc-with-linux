@@ -1,6 +1,7 @@
 #!/bin/bash
 req_cmake=$(command -v cmake)
 if [ -z "$req_cmake" ]; then
+    echo "cmake not found. Installing it"
     sudo dnf install cmake
 else
     echo "cmake found"
@@ -35,6 +36,14 @@ else
     echo "env variable already set"
 fi
 
-unzip SDK_25_06_00_LPC845BREAKOUT.zip
-mv SDK_25_06_00_LPC845BREAKOUT ~
-echo 'done. Make a "source ~/.zshrc" to apply env variable'
+if [ -f SDK_25_06_00_LPC845BREAKOUT.zip ]; then
+    if [ ! -d SDK_25_06_00_LPC845BREAKOUT ]; then
+        unzip SDK_25_06_00_LPC845BREAKOUT.zip
+    fi
+    mv SDK_25_06_00_LPC845BREAKOUT ~
+    rm -rf SDK_25_06_00_LPC845BREAKOUT.zip
+    echo 'Done. Make a "source ~/.zshrc" to apply env variable'
+else
+    echo "No sdk file found. Download it from the git repository"
+    exit
+fi

@@ -25,24 +25,25 @@ else
     echo "gcc for arm found"
 fi
 
-if [ -z "$ARMGCC_DIR" ]; then
-    echo "setting ARMGCC_DIR env var"
-    if [ "$SHELL" == "/bin/zsh" ]; then
-        echo 'export ARMGCC_DIR="/usr"' >> ~/.zshrc
-    else
-        echo 'export ARMGCC_DIR="/usr"' >> ~/.bashrc
-    fi
-else
-    echo "env variable already set"
-fi
-
 if [ -f SDK_25_06_00_LPC845BREAKOUT.zip ]; then
     if [ ! -d SDK_25_06_00_LPC845BREAKOUT ]; then
         unzip SDK_25_06_00_LPC845BREAKOUT.zip
     fi
     mv SDK_25_06_00_LPC845BREAKOUT ~
-    rm -rf SDK_25_06_00_LPC845BREAKOUT.zip
-    echo 'Done. Make a "source ~/.zshrc" to apply env variable'
+
+    if [ -z "$ARMGCC_DIR" ]; then
+        echo "setting ARMGCC_DIR env var"
+        if [ "$SHELL" == "/bin/zsh" ]; then
+            echo 'export ARMGCC_DIR="/usr"' >> ~/.zshrc
+            echo "Done"
+        else
+            echo 'export ARMGCC_DIR="/usr"' >> ~/.bashrc
+            echo 'Done. Make a "source ~/.zshrc" to apply env variable'
+        fi
+    else
+        echo "env variable already set"
+        echo "Done"
+    fi
 else
     echo "No sdk file found. Download it from the git repository"
     exit

@@ -69,6 +69,7 @@ case "$os" in
             for pkg in "${pkgs[@]}"; do
                 if [ "$pkg" == "gcc-arm" ]; then
                     sudo apt install -y gcc-arm-none-eabi
+                    sudo apt install -y gdb-multiarch
                     continue
                 fi
                 sudo apt install -y $pkg
@@ -91,10 +92,10 @@ if [ -f SDK_25_06_00_LPC845BREAKOUT.zip ]; then
         echo "setting ARMGCC_DIR env var"
         if [ "$SHELL" == "/bin/zsh" ]; then
             echo 'export ARMGCC_DIR="/usr"' >> ~/.zshrc
-            echo 'Done. "source ~/.bashrc" to apply env variable'
+            echo 'Done. Execute "source ~/.zshrc" to apply env variable'
         else
             echo 'export ARMGCC_DIR="/usr"' >> ~/.bashrc
-            echo 'Done. "source ~/.zshrc" to apply env variable'
+            echo 'Done. Execute "source ~/.bashrc" to apply env variable'
         fi
     else
         echo "env variable already set"

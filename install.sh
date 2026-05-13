@@ -15,12 +15,17 @@ fi
 req_ninja_build=$(command -v ninja-build)
 if [ -z "$req_ninja_build" ]; then
     echo "ninja build not found"
-    pkgs+=("ninja")
+    pkgs+=("ninja-build")
 else
     echo "ninja build found"
 fi
 
-req_gcc=$(command -v arm-linux-gnu-gcc)
+req_gcc=""
+if [ "$os" == "fedora" ]; then
+    req_gcc=$(command -v arm-linux-gnu-gcc)
+else
+    req_gcc=$(command -v gcc-arm-none-eabi)
+fi
 if [ -z "$req_gcc" ]; then
     pkgs+=("gcc-arm")
     echo "gcc for arm cross compiling not found. Installing it"
@@ -47,11 +52,6 @@ case "$os" in
                 sudo dnf install arm-none-eabi-gdb
                 continue
             fi
-            if [ "$pkg" == "ninja" ]; then
-                sudo dnf install -y ninja-build
-                sudo dnf install -y ninja
-                continue
-            fi
             sudo dnf install -y $pkg
         done
         ;;
@@ -62,9 +62,9 @@ case "$os" in
                 sudo apt install -y gcc-arm-none-eabi
                 continue
             fi
-            if [ "$pkg" == "ninja" ]; then
-                sudo apt install -y ninja-build
+            if [ "$pkg" == "ninja-build" ]; then
                 sudo apt install -y ninja
+                sudo apt install -y ninja-build
                 continue
             fi
             sudo apt install -y $pkg
@@ -86,7 +86,7 @@ if [ -f SDK_25_06_00_LPC845BREAKOUT.zip ]; then
         echo "setting ARMGCC_DIR env var"
         if [ "$SHELL" == "/bin/zsh" ]; then
             echo 'export ARMGCC_DIR="/usr"' >> ~/.zshrc
-            echo "Done"
+            echo 'Done. "source ~/.bashrc" to apply env variable'
         else
             echo 'export ARMGCC_DIR="/usr"' >> ~/.bashrc
             echo 'Done. "source ~/.zshrc" to apply env variable'

@@ -12,7 +12,13 @@ else
     echo "cmake found"
 fi
 
-req_ninja_build=$(command -v ninja-build)
+req_ninja_build=""
+if [ "$os" == "fedora" ]; then
+    req_ninja_build=$(command -v ninja-build)
+else
+    req_ninja_build=$(command -v ninja)
+fi
+
 if [ -z "$req_ninja_build" ]; then
     echo "ninja build not found"
     pkgs+=("ninja-build")
@@ -24,7 +30,7 @@ req_gcc=""
 if [ "$os" == "fedora" ]; then
     req_gcc=$(command -v arm-linux-gnu-gcc)
 else
-    req_gcc=$(command -v gcc-arm-none-eabi)
+    req_gcc=$(command -v arm-none-eabi-as)
 fi
 if [ -z "$req_gcc" ]; then
     pkgs+=("gcc-arm")
@@ -43,32 +49,31 @@ fi
 
 case "$os" in
     fedora)
-        for pkg in "${pkgs[@]}"; do
-            if [ "$pkg" == "gcc-arm" ]; then
-                sudo dnf install -y arm-linux-gnu-gcc
-                sudo dnf install -y arm-none-eabi-gcc-cs
-                sudo dnf install -y arm-none-eabi-gcc-cs-c++
-                sudo dnf copr enable rleh/arm-none-eabi-gdb
-                sudo dnf install arm-none-eabi-gdb
-                continue
-            fi
-            sudo dnf install -y $pkg
-        done
+        if [ ${#pkgs[@]} -ne 0 ]; then
+            for pkg in "${pkgs[@]}"; do
+                if [ "$pkg" == "gcc-arm" ]; then
+                    sudo dnf install -y arm-linux-gnu-gcc
+                    sudo dnf install -y arm-none-eabi-gcc-cs
+                    sudo dnf install -y arm-none-eabi-gcc-cs-c++
+                    sudo dnf copr enable rleh/arm-none-eabi-gdb
+                    sudo dnf install arm-none-eabi-gdb
+                    continue
+                fi
+                sudo dnf install -y $pkg
+            done
+        fi
         ;;
     debian)
-        sudo apt update
-        for pkg in "${pkgs[@]}"; do
-            if [ "$pkg" == "gcc-arm" ]; then
-                sudo apt install -y gcc-arm-none-eabi
-                continue
-            fi
-            if [ "$pkg" == "ninja-build" ]; then
-                sudo apt install -y ninja
-                sudo apt install -y ninja-build
-                continue
-            fi
-            sudo apt install -y $pkg
-        done
+        if [ ${#pkgs[@]} -ne 0 ]; then
+            sudo apt update
+            for pkg in "${pkgs[@]}"; do
+                if [ "$pkg" == "gcc-arm" ]; then
+                    sudo apt install -y gcc-arm-none-eabi
+                    continue
+                fi
+                sudo apt install -y $pkg
+            done
+        fi
         ;;
 esac
 

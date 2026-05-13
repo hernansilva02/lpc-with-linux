@@ -1,5 +1,5 @@
 # LPC845BRK with linux
-Scripts básicos para poder usar la placa de desarrollo LPC845brk en linux, ya que las muy buenas personas de NXP aparentemente no quieren que usemos otra cosa que no sea su tan aclamado IDE (ni siquiera es de ellos, es basado en Eclipse, pero igual te tenés que registrar para poder descargarlo).
+Scripts básicos para poder usar la placa de desarrollo LPC845brk en linux, ya que las muy buenas personas de NXP aparentemente no quieren que usemos otra cosa que no sea su tan aclamado IDE (ni siquiera es de ellos, es basado en Eclipse, pero igual te tenés que registrar para poder descargarlo) mcuexpresso o VScode.
 
 ## Usage
 
@@ -9,7 +9,7 @@ cp cmlists_gen.sh /path/a/tu/proyecto
 cp compile.sh /path/a/tu/proyecto
 ```
 
-Una vez que tengamos todo el source code
+Una vez que tengas todo el source code de tu proyecto
 
 
 ```bash
@@ -42,7 +42,7 @@ gdb-multiarch binary_name.elf
 arm-none-eabi-gdb binary_name.elf
 ```
 
-Dentro de gdb, necesitas conectarte al server generado por openocd, subir el programa y ejecutarlo. Para eso hacé lo siguiente
+Dentro de gdb, necesitas conectarte al server generado por openocd, subir el programa a la placa y ejecutarlo. Para eso hacé lo siguiente
 
 ```gdb
 tar ext localhost:3333

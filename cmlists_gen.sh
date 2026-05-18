@@ -37,7 +37,7 @@ set(EXECUTABLE_OUTPUT_PATH \${ProjDirPath}/\${CMAKE_BUILD_TYPE})
 set(LIBRARY_OUTPUT_PATH \${ProjDirPath}/\${CMAKE_BUILD_TYPE})
 
 
-project(hello_world)
+project(${project_name})
 
 enable_language(ASM)
 
@@ -56,7 +56,8 @@ target_include_directories(\${MCUX_SDK_PROJECT_NAME} PRIVATE
     ${ProjDirPath}/..
 )
 
-
+include(\${SdkRootDirPath}/boards/lpc845breakout/demo_apps/new_project/armgcc/flags.cmake)
+include(\${SdkRootDirPath}/boards/lpc845breakout/demo_apps/new_project/armgcc/config.cmake) 
 include(\${SdkRootDirPath}/devices/LPC845/all_lib_device.cmake)
 
 IF(NOT DEFINED TARGET_LINK_SYSTEM_LIBRARIES)  
@@ -70,9 +71,9 @@ target_link_libraries(\${MCUX_SDK_PROJECT_NAME} PRIVATE \${TARGET_LINK_SYSTEM_LI
 TARGET_LINK_LIBRARIES(\${MCUX_SDK_PROJECT_NAME} PRIVATE -Wl,--end-group)
 
 ADD_CUSTOM_COMMAND(TARGET \${MCUX_SDK_PROJECT_NAME} POST_BUILD COMMAND \${CMAKE_OBJCOPY}
--Obinary \${EXECUTABLE_OUTPUT_PATH}/\${MCUX_SDK_PROJECT_NAME} \${EXECUTABLE_OUTPUT_PATH}/hello_world.bin)
+-Obinary \${EXECUTABLE_OUTPUT_PATH}/\${MCUX_SDK_PROJECT_NAME} \${EXECUTABLE_OUTPUT_PATH}/${project_name}.bin)
 
-set_target_properties(\${MCUX_SDK_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES "output.map;\${EXECUTABLE_OUTPUT_PATH}/hello_world.bin")
+set_target_properties(\${MCUX_SDK_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES "output.map;\${EXECUTABLE_OUTPUT_PATH}/${project_name}.bin")
 
 # wrap all libraries with -Wl,--start-group -Wl,--end-group to prevent link order issue
 group_link_libraries()

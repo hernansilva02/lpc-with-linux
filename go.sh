@@ -1,5 +1,5 @@
 #!/bin/bash
-elf=$(find debug -name "*.elf" -type f)
+elf=$(find ./build/debug -name "*.elf" -type f)
 
 if [ -z "$elf" ]; then
     echo "No elf executable found on debug directory"

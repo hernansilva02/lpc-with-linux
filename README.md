@@ -52,4 +52,8 @@ continue
 run
 ```
 
-Listo, ya está cargado el programa
+Listo, ya está cargado el programa. Si no necesitas usar GDB, solo querés flashear el .elf
+
+```bash
+./go.sh
+```

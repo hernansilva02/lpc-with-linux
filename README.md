@@ -9,7 +9,7 @@ cp cmlists_gen.sh /path/a/tu/proyecto
 cp compile.sh /path/a/tu/proyecto
 ```
 
-Una vez que tengas todo el source code de tu proyecto
+La idea es que copies compile.sh, cmlists_gen.sh y go.sh al dir de tu proyecto. Una vez que tengas todo el source code de tu proyecto
 
 
 ```bash
